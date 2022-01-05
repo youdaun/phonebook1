@@ -213,16 +213,18 @@ public class PhoneDao {
 			rs = pstmt.executeQuery();
 
 			// 4.결과처리
-			int person_id = rs.getInt("person_id");
-			String name = rs.getString("name");
-			String hp = rs.getString("hp");
-			String company = rs.getString("company");
+			while (rs.next()) {
+				int person_id = rs.getInt("person_id");
+				String name = rs.getString("name");
+				String hp = rs.getString("hp");
+				String company = rs.getString("company");
+				
+				pvo.setPerson_id(person_id);
+				pvo.setName(name);
+				pvo.setHp(hp);
+				pvo.setCompany(company);
 
-			pvo.setPerson_id(person_id);
-			pvo.setName(name);
-			pvo.setHp(hp);
-			pvo.setCompany(company);
-
+			}
 		} catch (Exception e) {
 			System.out.println("error:" + e);
 		}
