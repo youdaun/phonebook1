@@ -7,6 +7,10 @@ public class PersonVo {
 	private String hp;
 	private String company;
 
+	public PersonVo() {
+		
+	}
+	
 	public PersonVo(int person_id, String name, String hp, String company) {
 		this.person_id = person_id;
 		this.name = name;

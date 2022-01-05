@@ -56,49 +56,6 @@ public class PhoneDao {
 		}
 	}
 
-	public List<PersonVo> SelectAll() {
-
-		List<PersonVo> pList = new ArrayList<PersonVo>();
-		getConnection();
-
-		try {
-
-			// 3. SQL문 준비 / 바인딩 / 실행
-			String query = "";
-			query += " select  person_id, ";
-			query += " 		   name, ";
-			query += " 		   hp, ";
-			query += " 		   company ";
-			query += " from    person ";
-
-			System.out.println(query);
-
-			pstmt = conn.prepareStatement(query);
-
-			// select문은 update가 아니라 query!!
-			rs = pstmt.executeQuery();
-
-			// 4.결과처리
-			while (rs.next()) {
-
-				int person_id = rs.getInt("person_id");
-				String name = rs.getString("name");
-				String hp = rs.getString("hp");
-				String company = rs.getString("company");
-
-				PersonVo pvo = new PersonVo(person_id, name, hp, company);
-				pList.add(pvo);
-
-			}
-
-		} catch (SQLException e) {
-			System.out.println("error:" + e);
-		}
-
-		close();
-		return pList;
-	}
-
 	public void PersonInsert(PersonVo pvo) {
 
 		getConnection();
@@ -109,7 +66,6 @@ public class PhoneDao {
 			String query = "";
 			query += " insert into person ";
 			query += " values (seq_person_id.nextval, ?, ?, ?) ";
-			System.out.println(query);
 
 			pstmt = conn.prepareStatement(query);
 
@@ -142,7 +98,6 @@ public class PhoneDao {
 			query += "        hp = ?, ";
 			query += "        company = ? ";
 			query += " where  person_id = ? ";
-			System.out.println(query);
 
 			pstmt = conn.prepareStatement(query);
 
@@ -173,7 +128,6 @@ public class PhoneDao {
 			String query = "";
 			query += " delete from person ";
 			query += " where person_id = ? ";
-			System.out.println(query);
 
 			pstmt = conn.prepareStatement(query);
 
@@ -195,7 +149,7 @@ public class PhoneDao {
 	public List<PersonVo> getPersonList() {
 		return getPersonList("");
 	}
-	
+
 	public List<PersonVo> getPersonList(String keyword) {
 
 		getConnection();
@@ -208,7 +162,6 @@ public class PhoneDao {
 			query += " select person_id, name, hp, company ";
 			query += " from person ";
 			query += " where (name like '%'||?||'%' or hp like '%'||?||'%' or company like '%'||?||'%') ";
-			System.out.println(query);
 
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, keyword);
@@ -239,5 +192,42 @@ public class PhoneDao {
 
 		return pList;
 
+	}
+
+	public PersonVo getPertson(int index) {
+
+		getConnection();
+		PersonVo pvo = new PersonVo();
+
+		try {
+			// 3. SQL문 준비 / 바인딩 / 실행
+			String query = "";
+			query += " select person_id, name, hp, company ";
+			query += " from person ";
+			query += " where person_id = ?";
+
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, index);
+
+			// select문은 update가 아니라 query!!
+			rs = pstmt.executeQuery();
+
+			// 4.결과처리
+			int person_id = rs.getInt("person_id");
+			String name = rs.getString("name");
+			String hp = rs.getString("hp");
+			String company = rs.getString("company");
+
+			pvo.setPerson_id(person_id);
+			pvo.setName(name);
+			pvo.setHp(hp);
+			pvo.setCompany(company);
+
+		} catch (Exception e) {
+			System.out.println("error:" + e);
+		}
+		close();
+
+		return pvo;
 	}
 }
