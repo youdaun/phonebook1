@@ -6,7 +6,7 @@
 <%
 	PhoneDao phoneDao = new PhoneDao();
 	int id = Integer.parseInt(request.getParameter("id"));
-	PersonVo pvo = phoneDao.getPertson(id);
+	PersonVo pvo = phoneDao.getPerson(id);
 %>
 
 <!DOCTYPE html>
@@ -18,7 +18,7 @@
 <body>
 	<h1>[Phonebook1]</h1>
 	
-	<h2>"" 전화번호 수정화면</h2>
+	<h2><%=pvo.getName()%> 전화번호 수정화면</h2>
 	
 	<p>
 	   	수정 화면 입니다. 아래 항목을 수정하고 "수정" 버튼을 클릭하세요

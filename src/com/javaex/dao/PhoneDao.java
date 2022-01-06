@@ -194,7 +194,7 @@ public class PhoneDao {
 
 	}
 
-	public PersonVo getPertson(int index) {
+	public PersonVo getPerson(int index) {
 
 		getConnection();
 		PersonVo pvo = new PersonVo();
